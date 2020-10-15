@@ -13,7 +13,7 @@ impl FromStr for LogLevel {
             Ok(level) => Ok(LogLevel(level)),
             Err(_) => match s.parse::<NamedLogLevel>() {
                 Ok(level) => Ok(LogLevel(level as u8)),
-                Err(_) => Err(anyhow::anyhow!(format!("Unknown level value: '{}'", s))),
+                Err(_) => Err(anyhow::anyhow!(format!("Invalid level value: '{}'", s))),
             },
         }
     }
@@ -51,10 +51,7 @@ impl FromStr for NamedLogLevel {
             "warn" => Ok(NamedLogLevel::Warn),
             "error" => Ok(NamedLogLevel::Error),
             "fatal" => Ok(NamedLogLevel::Fatal),
-            _ => Err(anyhow::anyhow!(format!(
-                "Unknown named level value: '{}'",
-                s
-            ))),
+            _ => Err(anyhow::anyhow!(format!("Invalid level value: '{}'", s))),
         }
     }
 }

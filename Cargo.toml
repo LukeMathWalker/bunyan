@@ -17,3 +17,7 @@ name = "bunyan"
 [dependencies]
 clap = "3.0.0-beta.2"
 anyhow = "1.0.33"
+
+[dev-dependencies]
+assert_cmd = "1.0.1"
+predicates = "1.0.5"
