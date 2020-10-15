@@ -20,7 +20,9 @@ fn invalid_levels() {
 
 #[test]
 fn valid_levels() {
-    for valid_level in &["info", "10", "InFo", "INFO"] {
+    for valid_level in &[
+        "info", "10", "InFo", "INFO", "warn", "debug", "trace", "fatal", "error",
+    ] {
         let mut cmd = command();
 
         cmd.arg("-l").arg(valid_level);
