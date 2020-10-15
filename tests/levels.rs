@@ -21,3 +21,13 @@ fn invalid_levels() {
             .stderr(predicate::str::contains("Invalid level"));
     }
 }
+
+#[test]
+fn valid_levels() {
+    for valid_level in &["info", "10", "InFo", "INFO"] {
+        let mut cmd = command();
+
+        cmd.arg("-l").arg(valid_level);
+        cmd.assert().success();
+    }
+}

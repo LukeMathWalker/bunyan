@@ -1,4 +1,4 @@
-use bunyan::LogLevel;
+use bunyan::{process_stdin, LogLevel};
 use clap::Clap;
 
 /// Filter and pretty-print Bunyan log file content.
@@ -13,4 +13,5 @@ struct Cli {
 
 fn main() {
     let _cli = Cli::parse();
+    process_stdin();
 }
