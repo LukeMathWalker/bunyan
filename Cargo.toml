@@ -1,7 +1,7 @@
 [package]
 name = "bunyan"
 version = "0.0.1"
-authors = ["Luca Palmieri <lpalmieri@truelayer.com>"]
+authors = ["Luca Palmieri <rust@lpalmieri.com>"]
 edition = "2018"
 license = "MIT OR Apache-2.0"
 description = "A CLI to pretty print logs in bunyan format. A Rust port of the original JavaScript bunyan CLI."
@@ -9,3 +9,4 @@ description = "A CLI to pretty print logs in bunyan format. A Rust port of the o
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+clap = "3.0.0-beta.2"
