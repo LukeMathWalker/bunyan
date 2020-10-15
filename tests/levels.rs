@@ -8,7 +8,11 @@ fn command() -> Command {
 
 #[test]
 fn invalid_levels() {
-    for invalid_level in &["not-a-real-level", "'-1-"] {
+    for invalid_level in &[
+        "not-a-real-level",
+        "'-1-", // Only positive values are allowed
+        "256",  // Out of bounds for u8
+    ] {
         let mut cmd = command();
 
         cmd.arg("-l").arg(invalid_level);
