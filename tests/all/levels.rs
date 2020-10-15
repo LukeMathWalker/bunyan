@@ -1,10 +1,6 @@
+use crate::helpers::command;
 use assert_cmd::prelude::*;
 use predicates::prelude::*;
-use std::process::Command;
-
-fn command() -> Command {
-    Command::cargo_bin("bunyan").unwrap()
-}
 
 #[test]
 fn invalid_levels() {
