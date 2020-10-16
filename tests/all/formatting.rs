@@ -19,7 +19,7 @@ fn simple_log_with_color() {
     let mut cmd = command();
     cmd.arg("--color").pipe_stdin(input_path).unwrap();
     cmd.assert().success().stdout(predicate::str::similar(
-        "[2012-02-08T22:56:52.856Z]  \u{1b}[36mINFO\u{1b}[0m: myservice/123 on example.com: \u{1b}[36mMy message\u{1b}[0m\n",
+        "[2012-02-08T22:56:52.856Z] \u{1b}[36m INFO\u{1b}[0m: myservice/123 on example.com: \u{1b}[36mMy message\u{1b}[0m\n",
     ));
 }
 
@@ -41,7 +41,7 @@ fn extra_field_log_with_color() {
     let mut cmd = command();
     cmd.arg("--color").pipe_stdin(input_path).unwrap();
     cmd.assert().success().stdout(predicate::str::similar(
-        "[2012-02-08T22:56:52.856Z]  \u{1b}[36mINFO\u{1b}[0m: myservice/123 on example.com: \u{1b}[36mMy message\u{1b}[0m (extra=field)\n",
+        "[2012-02-08T22:56:52.856Z] \u{1b}[36m INFO\u{1b}[0m: myservice/123 on example.com: \u{1b}[36mMy message\u{1b}[0m (extra=field)\n",
     ));
 }
 
