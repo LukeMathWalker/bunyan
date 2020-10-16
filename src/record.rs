@@ -1,4 +1,6 @@
+use crate::{Format, NamedLogLevel};
 use chrono::{DateTime, Utc};
+use std::convert::{Infallible, TryFrom};
 
 #[derive(serde::Deserialize)]
 pub struct LogRecord<'a> {
@@ -25,4 +27,30 @@ pub struct LogRecord<'a> {
     /// Any extra contextual piece of information in the log record.
     #[serde(flatten)]
     pub extras: serde_json::Value,
+}
+
+impl<'a> LogRecord<'a> {
+    pub fn format(&self, format: Format) -> String {
+        let level = format_level(self.level);
+        format!(
+            "[{}] {}: {}/{} on {}: {}",
+            self.time, level, self.name, self.process_identifier, self.hostname, self.message
+        )
+    }
+}
+
+pub fn format_level(level: u8) -> String {
+    if let Some(level) = NamedLogLevel::try_from(level).ok() {
+        match level {
+            NamedLogLevel::Fatal => "FATAL",
+            NamedLogLevel::Error => "ERROR",
+            NamedLogLevel::Warn => "WARN",
+            NamedLogLevel::Info => "INFO",
+            NamedLogLevel::Debug => "DEBUG",
+            NamedLogLevel::Trace => "TRACE",
+        }
+        .into()
+    } else {
+        format!("LVL{}", level)
+    }
 }

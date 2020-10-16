@@ -1,20 +1,23 @@
+use std::convert::TryFrom;
 use std::str::FromStr;
 
 /// Bunyan log level.
 /// Although "named" log levels are specified (see `NamedLogLevel`) arbitrary integer values are
 /// accepted (e.g. 32).
-pub struct LogLevel(u8);
+#[derive(Copy, Clone, Debug, PartialEq)]
+pub struct NumericalLogLevel(u8);
 
-impl FromStr for LogLevel {
+impl FromStr for NumericalLogLevel {
     type Err = anyhow::Error;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        match s.parse::<u8>() {
-            Ok(level) => Ok(LogLevel(level)),
-            Err(_) => match s.parse::<NamedLogLevel>() {
-                Ok(level) => Ok(LogLevel(level as u8)),
+        if let Some(level) = s.parse::<u8>().ok() {
+            Ok(NumericalLogLevel(level))
+        } else {
+            match s.parse::<NamedLogLevel>() {
+                Ok(level) => Ok(NumericalLogLevel(level as u8)),
                 Err(_) => Err(anyhow::anyhow!(format!("Invalid level value: '{}'", s))),
-            },
+            }
         }
     }
 }
@@ -23,6 +26,7 @@ impl FromStr for LogLevel {
 /// Although arbitrary integer values are accepted as log levels (see `LogLevel`) the usage of
 /// named log levels is preferred.
 #[repr(u8)]
+#[derive(Copy, Clone, Debug, PartialEq)]
 pub enum NamedLogLevel {
     /// The service/app is going to stop or become unusable now.
     /// An operator should definitely look into this soon.
@@ -52,6 +56,25 @@ impl FromStr for NamedLogLevel {
             "error" => Ok(NamedLogLevel::Error),
             "fatal" => Ok(NamedLogLevel::Fatal),
             _ => Err(anyhow::anyhow!(format!("Invalid level value: '{}'", s))),
+        }
+    }
+}
+
+impl TryFrom<u8> for NamedLogLevel {
+    type Error = anyhow::Error;
+
+    fn try_from(value: u8) -> Result<Self, anyhow::Error> {
+        match value {
+            10 => Ok(NamedLogLevel::Trace),
+            20 => Ok(NamedLogLevel::Debug),
+            30 => Ok(NamedLogLevel::Info),
+            40 => Ok(NamedLogLevel::Warn),
+            50 => Ok(NamedLogLevel::Error),
+            60 => Ok(NamedLogLevel::Fatal),
+            v => Err(anyhow::anyhow!(format!(
+                "{} does not correspond to a valid named log level.",
+                v
+            ))),
         }
     }
 }
