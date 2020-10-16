@@ -66,3 +66,28 @@ fn all_works() {
     cmd.arg("--no-color").pipe_stdin(input_path).unwrap();
     cmd.assert().success();
 }
+
+#[test]
+fn level_filter() {
+    let input_path = get_corpus_path().join("all.log");
+
+    let mut cmd = command();
+    cmd.arg("--no-color")
+        .arg("-l")
+        .arg("40")
+        .pipe_stdin(input_path)
+        .unwrap();
+    cmd.assert().success().stdout(predicate::str::similar(
+        "# levels\n',
+        [2012-02-08T22:56:53.856Z]  WARN: myservice/123 on example.com: My message\n
+        [2012-02-08T22:56:54.856Z] ERROR: myservice/123 on example.com: My message\n
+        [2012-02-08T22:56:55.856Z] LVL55: myservice/123 on example.com: My message\n
+        [2012-02-08T22:56:56.856Z] FATAL: myservice/123 on example.com: My message\n
+        \n
+        # extra fields\n
+        \n
+        # bogus\n
+        not a JSON line\n
+        {\"hi\": \"there\"}\n",
+    ));
+}
