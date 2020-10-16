@@ -33,7 +33,7 @@ pub struct LogRecord<'a> {
 impl<'a> LogRecord<'a> {
     pub fn format(&self, _format: Format) -> String {
         let level = format_level(self.level);
-        format!(
+        let formatted = format!(
             "[{}]  {}: {}/{} on {}: {}",
             self.time.to_rfc3339_opts(SecondsFormat::Millis, true),
             level,
@@ -41,13 +41,16 @@ impl<'a> LogRecord<'a> {
             self.process_identifier,
             self.hostname,
             self.message.cyan()
-        )
+        );
+        dbg!(&formatted);
+        formatted
     }
 }
 
 pub fn format_level(level: u8) -> String {
     if let Some(level) = NamedLogLevel::try_from(level).ok() {
         match level {
+            // Following the orignal bunyan here with the leading whitespace!
             NamedLogLevel::Fatal => "FATAL".reversed(),
             NamedLogLevel::Error => "ERROR".red(),
             NamedLogLevel::Warn => "WARN".magenta(),
