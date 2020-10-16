@@ -1,5 +1,6 @@
 use crate::{Format, NamedLogLevel};
 use chrono::{DateTime, SecondsFormat, Utc};
+use colored::Colorize;
 use std::convert::TryFrom;
 
 #[derive(serde::Deserialize)]
@@ -47,14 +48,14 @@ impl<'a> LogRecord<'a> {
 pub fn format_level(level: u8) -> String {
     if let Some(level) = NamedLogLevel::try_from(level).ok() {
         match level {
-            NamedLogLevel::Fatal => "FATAL",
-            NamedLogLevel::Error => "ERROR",
-            NamedLogLevel::Warn => "WARN",
-            NamedLogLevel::Info => "INFO",
-            NamedLogLevel::Debug => "DEBUG",
-            NamedLogLevel::Trace => "TRACE",
+            NamedLogLevel::Fatal => "FATAL".bright_red(),
+            NamedLogLevel::Error => "ERROR".red(),
+            NamedLogLevel::Warn => "WARN".magenta(),
+            NamedLogLevel::Info => "INFO".cyan(),
+            NamedLogLevel::Debug => "DEBUG".yellow(),
+            NamedLogLevel::Trace => "TRACE".white(),
         }
-        .into()
+        .to_string()
     } else {
         format!("LVL{}", level)
     }

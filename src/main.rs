@@ -16,9 +16,26 @@ struct Cli {
     /// - long: prettified JSON;
     #[clap(short, long, default_value = "long")]
     output: Format,
+    /// Colorize output.
+    ///
+    /// Defaults to try if output stream is a TTY.
+    #[clap(long = "color", conflicts_with = "no-color")]
+    color: bool,
+    /// Force no coloring (e.g. terminal doesn't support it).
+    #[clap(long = "no-color", conflicts_with = "color")]
+    no_color: bool,
 }
 
 fn main() {
     let cli = Cli::parse();
+
+    // Color output if explicitly requested or if the terminal supports it, unless the user
+    // explicitly opted out.
+    if !cli.no_color || cli.color || atty::is(atty::Stream::Stdout) {
+        colored::control::set_override(true)
+    } else {
+        colored::control::set_override(false)
+    };
+
     process_stdin(cli.output);
 }
