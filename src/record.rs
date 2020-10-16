@@ -2,6 +2,9 @@ use crate::{Format, NamedLogLevel};
 use chrono::{DateTime, SecondsFormat, Utc};
 use colored::Colorize;
 use itertools::Itertools;
+use serde::Serialize;
+use serde_json::ser::PrettyFormatter;
+use serde_json::Serializer;
 use std::convert::TryFrom;
 
 #[derive(serde::Deserialize)]
@@ -78,7 +81,7 @@ pub fn format_extras(extra_fields: &serde_json::Map<String, serde_json::Value>) 
                 s.to_owned()
             }
         } else {
-            serde_json::to_string(&value).unwrap()
+            json_to_indented_string(value, "  ")
         };
 
         if stringified.contains("\n") || stringified.len() > 50 {
@@ -102,6 +105,20 @@ pub fn format_extras(extra_fields: &serde_json::Map<String, serde_json::Value>) 
         "".into()
     };
     format!("{}\n{}", formatted_extras, formatted_details)
+}
+
+/// Serialize a JSON value to a string using the specified indentation.
+///
+/// It mimics the implementation of `serde_json::to_string_pretty`.
+fn json_to_indented_string(value: &serde_json::Value, indent: &str) -> String {
+    let mut writer = Vec::with_capacity(128);
+    let formatter = PrettyFormatter::with_indent(indent.as_bytes());
+    let mut serializer = Serializer::with_formatter(&mut writer, formatter);
+    value.serialize(&mut serializer).unwrap();
+    unsafe {
+        // We do not emit invalid UTF-8.
+        String::from_utf8_unchecked(writer)
+    }
 }
 
 pub fn indent(s: &str) -> String {
