@@ -70,6 +70,17 @@ fn all_works() {
 #[test]
 fn level_filter() {
     let input_path = get_corpus_path().join("all.log");
+    let expected = "# levels
+[2012-02-08T22:56:53.856Z]  WARN: myservice/123 on example.com: My message
+[2012-02-08T22:56:54.856Z] ERROR: myservice/123 on example.com: My message
+[2012-02-08T22:56:55.856Z] LVL55: myservice/123 on example.com: My message
+[2012-02-08T22:56:56.856Z] FATAL: myservice/123 on example.com: My message
+
+# extra fields
+
+# bogus
+not a JSON line
+{\"hi\": \"there\"}\n";
 
     let mut cmd = command();
     cmd.arg("--no-color")
@@ -77,17 +88,7 @@ fn level_filter() {
         .arg("40")
         .pipe_stdin(input_path)
         .unwrap();
-    cmd.assert().success().stdout(predicate::str::similar(
-        "# levels\n',
-        [2012-02-08T22:56:53.856Z]  WARN: myservice/123 on example.com: My message\n
-        [2012-02-08T22:56:54.856Z] ERROR: myservice/123 on example.com: My message\n
-        [2012-02-08T22:56:55.856Z] LVL55: myservice/123 on example.com: My message\n
-        [2012-02-08T22:56:56.856Z] FATAL: myservice/123 on example.com: My message\n
-        \n
-        # extra fields\n
-        \n
-        # bogus\n
-        not a JSON line\n
-        {\"hi\": \"there\"}\n",
-    ));
+    cmd.assert()
+        .success()
+        .stdout(predicate::str::similar(expected));
 }

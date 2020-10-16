@@ -5,7 +5,7 @@ use std::str::FromStr;
 /// Although "named" log levels are specified (see `NamedLogLevel`) arbitrary integer values are
 /// accepted (e.g. 32).
 #[derive(Copy, Clone, Debug, PartialEq)]
-pub struct NumericalLogLevel(u8);
+pub struct NumericalLogLevel(pub u8);
 
 impl FromStr for NumericalLogLevel {
     type Err = anyhow::Error;

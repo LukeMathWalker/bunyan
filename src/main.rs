@@ -37,5 +37,5 @@ fn main() {
         colored::control::set_override(false)
     };
 
-    process_stdin(cli.output);
+    process_stdin(cli.output, cli.level.0);
 }
