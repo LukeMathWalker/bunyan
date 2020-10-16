@@ -6,7 +6,7 @@ use clap::Clap;
 #[clap(version = "0.1", author = "Luca Palmieri <rust@lpalmieri.com>")]
 struct Cli {
     /// Only show messages at or above the specified level.
-    /// You can specify level *names* or the internal numeric values.
+    /// You can specify level *names* or a positive numeric value.
     #[clap(short, long, default_value = "trace")]
     level: LogLevel,
 }
