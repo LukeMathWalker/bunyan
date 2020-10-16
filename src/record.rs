@@ -40,7 +40,7 @@ impl<'a> LogRecord<'a> {
             self.name,
             self.process_identifier,
             self.hostname,
-            self.message
+            self.message.cyan()
         )
     }
 }
