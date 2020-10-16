@@ -1,5 +1,4 @@
 use crate::helpers::command;
-use assert_cmd::prelude::*;
 use predicates::prelude::*;
 
 #[test]
