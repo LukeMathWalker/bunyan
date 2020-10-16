@@ -8,7 +8,7 @@ pub fn process_stdin(format: Format) {
         let line = line.unwrap();
         match serde_json::from_str::<LogRecord>(&line) {
             Ok(r) => print!("{}", r.format(format)),
-            Err(e) => eprintln!("Failed to parse - {:?}", e),
+            Err(_) => println!("{}", line),
         }
     }
 }
