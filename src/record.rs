@@ -1,6 +1,6 @@
 use crate::{Format, NamedLogLevel};
-use chrono::{DateTime, Utc};
-use std::convert::{Infallible, TryFrom};
+use chrono::{DateTime, SecondsFormat, Utc};
+use std::convert::TryFrom;
 
 #[derive(serde::Deserialize)]
 pub struct LogRecord<'a> {
@@ -30,11 +30,16 @@ pub struct LogRecord<'a> {
 }
 
 impl<'a> LogRecord<'a> {
-    pub fn format(&self, format: Format) -> String {
+    pub fn format(&self, _format: Format) -> String {
         let level = format_level(self.level);
         format!(
-            "[{}] {}: {}/{} on {}: {}",
-            self.time, level, self.name, self.process_identifier, self.hostname, self.message
+            "[{}]  {}: {}/{} on {}: {}",
+            self.time.to_rfc3339_opts(SecondsFormat::Millis, true),
+            level,
+            self.name,
+            self.process_identifier,
+            self.hostname,
+            self.message
         )
     }
 }
