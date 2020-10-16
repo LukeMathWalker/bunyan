@@ -48,7 +48,7 @@ impl<'a> LogRecord<'a> {
 pub fn format_level(level: u8) -> String {
     if let Some(level) = NamedLogLevel::try_from(level).ok() {
         match level {
-            NamedLogLevel::Fatal => "FATAL".bright_red(),
+            NamedLogLevel::Fatal => "FATAL".reversed(),
             NamedLogLevel::Error => "ERROR".red(),
             NamedLogLevel::Warn => "WARN".magenta(),
             NamedLogLevel::Info => "INFO".cyan(),
