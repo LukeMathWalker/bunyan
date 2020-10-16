@@ -57,3 +57,12 @@ fn bogus_log() {
 "#,
     ));
 }
+
+#[test]
+fn all_works() {
+    let input_path = get_corpus_path().join("all.log");
+
+    let mut cmd = command();
+    cmd.arg("--no-color").pipe_stdin(input_path).unwrap();
+    cmd.assert().success();
+}

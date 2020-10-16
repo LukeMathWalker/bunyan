@@ -35,7 +35,7 @@ impl<'a> LogRecord<'a> {
     pub fn format(&self, _format: Format) -> String {
         let level = format_level(self.level);
         let formatted = format!(
-            "[{}]  {}: {}/{} on {}: {}{}",
+            "[{}] {}: {}/{} on {}: {}{}",
             self.time.to_rfc3339_opts(SecondsFormat::Millis, true),
             level,
             self.name,
@@ -44,7 +44,6 @@ impl<'a> LogRecord<'a> {
             self.message.cyan(),
             format_extras(&self.extras)
         );
-        dbg!(&formatted);
         formatted
     }
 }
@@ -52,11 +51,11 @@ impl<'a> LogRecord<'a> {
 pub fn format_level(level: u8) -> String {
     if let Some(level) = NamedLogLevel::try_from(level).ok() {
         match level {
-            // Following the orignal bunyan here with the leading whitespace!
+            // Making sure all levels are 5 characters
             NamedLogLevel::Fatal => "FATAL".reversed(),
             NamedLogLevel::Error => "ERROR".red(),
-            NamedLogLevel::Warn => "WARN".magenta(),
-            NamedLogLevel::Info => "INFO".cyan(),
+            NamedLogLevel::Warn => " WARN".magenta(),
+            NamedLogLevel::Info => " INFO".cyan(),
             NamedLogLevel::Debug => "DEBUG".yellow(),
             NamedLogLevel::Trace => "TRACE".white(),
         }
@@ -71,18 +70,29 @@ pub fn format_extras(extra_fields: &serde_json::Map<String, serde_json::Value>) 
     let mut extras = Vec::new();
     for (key, value) in extra_fields {
         let stringified = if let serde_json::Value::String(s) = value {
-            s.to_owned()
+            // Preserve strings unless they contain whitespaces/are empty
+            // In that case, we want surrounding quotes.
+            if s.contains(" ") || s.is_empty() {
+                format!("\"{}\"", s)
+            } else {
+                s.to_owned()
+            }
         } else {
             serde_json::to_string(&value).unwrap()
         };
+
         if stringified.contains("\n") || stringified.len() > 50 {
-            details.push(indent(&format!("{}:{}", key, value)));
+            if let serde_json::Value::String(s) = value {
+                details.push(indent(&format!("{}: {}", key, s)));
+            } else {
+                details.push(indent(&format!("{}: {}", key, stringified)));
+            }
         } else {
             extras.push(format!("{}={}", key, stringified));
         }
     }
     let formatted_details = if details.len() > 0 {
-        details.into_iter().join("\n    --\n").to_string()
+        format!("{}\n", details.into_iter().join("\n    --\n"))
     } else {
         "".into()
     };
