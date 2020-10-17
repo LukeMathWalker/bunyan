@@ -39,14 +39,12 @@ That's why I wrote `bunyan-rs`, a Rust port of (a subset of) the original [NodeJ
 1. [How to use](#how-to-use)
 2. [Limitations](#limitations)
 3. [Bunyan ecosystem in Rust](#bunyan-ecosystem-in-rust)
-4. [License](#license)
+4. [Benchmarks](#benchmarks)
+5. [License](#license)
 
 ## How to install
 
-You can either:
-
-- Download a copy of the pre-built binary for your platform from the latest release on GitHub;
-- Install from source using `cargo`:
+Using `cargo`:
 ```bash
 cargo install bunyan
 ```
@@ -99,6 +97,28 @@ Check out the following crates:
 
 - [`tracing-bunyan-formatter`](https://crates.io/crates/tracing-bunyan-formatter), a bunyan formatter for [`tracing`](https://crates.io/crates/tracing);
 - [`slog-bunyan`](https://crates.io/crates/slog-bunyan), a bunyan formatter for [`slog`](https://crates.io/crates/slog).
+
+## Benchmarks
+
+Speed has never been a burning problem while eyeballing logs from applications, but any speed-up to the tools I use on a daily basis is always appreciated.
+
+To benchmark `bunyan-rs` against the original NodeJS `bunyan` follow these steps:
+
+- Build `bunyan-rs` using the `release` profile:
+```bash
+cargo build --release
+```
+- Install `bunyan` via `npm`. You will need `npx` as well;
+- Benchmark!
+```bash
+# bunyan JS
+time ./benchmark_js.sh benchmark_logs.txt
+# bunyan-rs
+time ./benchmark_rs.sh benchmark_logs.txt
+```
+
+On my system `bunyan-rs` is roughly 5x faster on this very non-scientific and highly inaccurate benchmark - your mileage may vary.  
+The Rust code is highly non-optimised (we are allocating freely and wastefully!) - streamlining it could be a fun exercise.
 
 ## License
 
