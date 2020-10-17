@@ -30,7 +30,7 @@ I feel you!
 That's why I wrote `bunyan-rs`, a Rust port of (a subset of) the original [NodeJS bunyan CLI](https://github.com/trentm/node-bunyan).  
 
 <div>
-<img src="https://raw.githubusercontent.com/LukeMathWalker/bunyan/master/images/ConsoleBunyanOutput.png" />
+<img src="https://raw.githubusercontent.com/LukeMathWalker/bunyan/main/images/ConsoleBunyanOutput.png" />
 </div>
 <hr/>
 
