@@ -2,7 +2,7 @@ use crate::record::LogRecord;
 use crate::Format;
 use std::io::BufRead;
 
-pub fn process_stdin(format: Format, level_filter: u8) {
+pub fn process_stdin(format: Format, level_filter: u8, strict: bool) {
     let stdin = std::io::stdin();
     for line in stdin.lock().lines() {
         let line = line.unwrap();
@@ -12,7 +12,11 @@ pub fn process_stdin(format: Format, level_filter: u8) {
                     print!("{}", r.format(format))
                 }
             }
-            Err(_) => println!("{}", line),
+            Err(_) => {
+                if !strict {
+                    println!("{}", line)
+                }
+            }
         }
     }
 }

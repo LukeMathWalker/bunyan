@@ -59,6 +59,18 @@ fn bogus_log() {
 }
 
 #[test]
+fn bogus_log_strict() {
+    let input_path = get_corpus_path().join("bogus.log");
+
+    let mut cmd = command();
+    cmd.arg("--no-color")
+        .arg("--strict")
+        .pipe_stdin(input_path)
+        .unwrap();
+    cmd.assert().success().stdout(predicate::str::similar(""));
+}
+
+#[test]
 fn all_works() {
     let input_path = get_corpus_path().join("all.log");
 

@@ -24,6 +24,10 @@ struct Cli {
     /// Force no coloring (e.g. terminal doesn't support it).
     #[clap(long = "no-color", conflicts_with = "color")]
     no_color: bool,
+    /// Suppress all but legal Bunyan JSON log lines. By default non-JSON and non-Bunyan lines
+    /// are passed through.
+    #[clap(long)]
+    strict: bool,
 }
 
 fn main() {
@@ -37,5 +41,5 @@ fn main() {
         colored::control::set_override(false)
     };
 
-    process_stdin(cli.output, cli.level.0);
+    process_stdin(cli.output, cli.level.0, cli.strict);
 }
