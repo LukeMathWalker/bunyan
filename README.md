@@ -29,11 +29,17 @@ I feel you!
 
 That's why I wrote `bunyan-rs`, a Rust port of (a subset of) the original [NodeJS bunyan CLI](https://github.com/trentm/node-bunyan).  
 
+<div>
+<img src="https://raw.githubusercontent.com/LukeMathWalker/bunyan/master/images/ConsoleBunyanOutput.png" />
+</div>
+<hr/>
+
 # Table of Contents
 0. [How to install](#how-to-install)
 1. [How to use](#how-to-use)
 2. [Limitations](#limitations)
-3. [License](#license)
+3. [Bunyan ecosystem in Rust](#bunyan-ecosystem-in-rust)
+4. [License](#license)
 
 ## How to install
 
@@ -84,6 +90,15 @@ Compared to the original `bunyan` CLI, `bunyan-rs`:
 
 Some of the above might or might not be added in the future.  
 If you are interested in contributing, please open an issue.
+
+## Bunyan ecosystem in Rust
+
+You are writing a Rust application and you'd like to emit logs in bunyan format - what can you use?
+
+Check out the following crates:
+
+- [`tracing-bunyan-formatter`](https://crates.io/crates/tracing-bunyan-formatter), a bunyan formatter for [`tracing`](https://crates.io/crates/tracing);
+- [`slog-bunyan`](https://crates.io/crates/slog-bunyan), a bunyan formatter for [`slog`](https://crates.io/crates/slog).
 
 ## License
 

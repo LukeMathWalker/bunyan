@@ -1,10 +1,10 @@
 [package]
 name = "bunyan"
-version = "0.0.1"
+version = "0.1.0"
 authors = ["Luca Palmieri <rust@lpalmieri.com>"]
 edition = "2018"
 license = "MIT OR Apache-2.0"
-description = "A CLI to pretty print logs in bunyan format. A Rust port of the original JavaScript bunyan CLI."
+description = "A CLI to pretty print structured logs. A Rust port of the original JavaScript bunyan CLI."
 
 [[bin]]
 path = "src/main.rs"
