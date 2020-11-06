@@ -5,6 +5,7 @@ authors = ["Luca Palmieri <rust@lpalmieri.com>"]
 edition = "2018"
 license = "MIT OR Apache-2.0"
 description = "A CLI to pretty print structured logs. A Rust port of the original JavaScript bunyan CLI."
+repository = "https://github.com/LukeMathWalker/bunyan"
 
 [[bin]]
 path = "src/main.rs"
