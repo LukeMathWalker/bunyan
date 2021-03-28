@@ -35,11 +35,11 @@ fn main() {
 
     // Color output if explicitly requested or if the terminal supports it, unless the user
     // explicitly opted out.
-    if !cli.no_color || cli.color || atty::is(atty::Stream::Stdout) {
-        colored::control::set_override(true)
-    } else {
-        colored::control::set_override(false)
-    };
+    if cli.no_color {
+        colored::control::set_override(false);
+    } else if cli.color || atty::is(atty::Stream::Stdout) {
+        colored::control::set_override(true);
+    }
 
     process_stdin(cli.output, cli.level.0, cli.strict);
 }
