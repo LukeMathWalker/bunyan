@@ -5,6 +5,7 @@ use itertools::Itertools;
 use serde::Serialize;
 use serde_json::ser::PrettyFormatter;
 use serde_json::Serializer;
+use std::borrow::Cow;
 use std::convert::TryFrom;
 
 #[derive(serde::Deserialize)]
@@ -28,7 +29,7 @@ pub struct LogRecord<'a> {
     pub time: DateTime<Utc>,
     /// Log message.
     #[serde(rename = "msg")]
-    pub message: &'a str,
+    pub message: Cow<'a, str>,
     /// Any extra contextual piece of information in the log record.
     #[serde(flatten)]
     pub extras: serde_json::Map<String, serde_json::Value>,
