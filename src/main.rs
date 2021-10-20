@@ -1,8 +1,8 @@
 use bunyan::{process_stdin, Format, NumericalLogLevel};
-use clap::Clap;
+use clap::Parser;
 
 /// Filter and pretty-print Bunyan log file content.
-#[derive(Clap)]
+#[derive(Parser)]
 #[clap(version = "0.1", author = "Luca Palmieri <rust@lpalmieri.com>")]
 struct Cli {
     /// Only show messages at or above the specified level.
