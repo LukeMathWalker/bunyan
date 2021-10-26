@@ -14,6 +14,7 @@
 {"name":"myservice","pid":123,"hostname":"example.com","level":30,"four":"over 50 chars long long long long long long long long long","msg":"My message","time":"2012-02-08T22:56:52.856Z","v":0}
 {"name":"myservice","pid":123,"hostname":"example.com","level":30,"five":{"a": "json object"},"msg":"My message","time":"2012-02-08T22:56:52.856Z","v":0}
 {"name":"myservice","pid":123,"hostname":"example.com","level":30,"six":["a", "json", "array"],"msg":"My message","time":"2012-02-08T22:56:52.856Z","v":0}
+{"name":"myservice","pid":123,"hostname":"example.com","level":30,"seven":{"a": "data", "b": {"c": "double-nested1", "d": 12.5}},"msg":"My message","time":"2012-02-08T22:56:52.856Z","v":0}
 
 # bogus
 not a JSON line

@@ -1,3 +1,4 @@
+mod compare;
 mod level;
 mod record;
 mod sources;

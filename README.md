@@ -23,11 +23,11 @@
 
 > _Structured logs are the greatest thing since sliced bread._
 
-Are you annoyed from having to install `npm` just to get a copy of the amazing [NodeJS bunyan CLI](https://github.com/trentm/node-bunyan) to pretty-print your logs?  
+Are you annoyed from having to install `npm` just to get a copy of the amazing [NodeJS bunyan CLI](https://github.com/trentm/node-bunyan) to pretty-print your logs?
 
 I feel you!
 
-That's why I wrote `bunyan-rs`, a Rust port of (a subset of) the original [NodeJS bunyan CLI](https://github.com/trentm/node-bunyan).  
+That's why I wrote `bunyan-rs`, a Rust port of (a subset of) the original [NodeJS bunyan CLI](https://github.com/trentm/node-bunyan).
 
 <div>
 <img src="https://raw.githubusercontent.com/LukeMathWalker/bunyan/main/images/ConsoleBunyanOutput.png" />
@@ -35,6 +35,7 @@ That's why I wrote `bunyan-rs`, a Rust port of (a subset of) the original [NodeJ
 <hr/>
 
 # Table of Contents
+
 0. [How to install](#how-to-install)
 1. [How to use](#how-to-use)
 2. [Limitations](#limitations)
@@ -45,11 +46,13 @@ That's why I wrote `bunyan-rs`, a Rust port of (a subset of) the original [NodeJ
 ## How to install
 
 Using `cargo`:
+
 ```bash
 cargo install bunyan
 ```
 
 You can verify your installation with
+
 ```bash
 bunyan --help
 ```
@@ -59,11 +62,13 @@ bunyan --help
 `bunyan-rs` only supports stdin as input source.
 
 You can pipe a log file into it:
+
 ```bash
 cat tests/all/corpus/all.log | bunyan
 ```
 
 Or you can pipe the output of a long-running job into it:
+
 ```bash
 # Tail logs from a Docker container
 docker logs -f my-app | bunyan
@@ -81,7 +86,7 @@ Compared to the original `bunyan` CLI, `bunyan-rs`:
 
 - Only supports `stdin` as input source (no files);
 - Does not support log snooping via DTrace (`-p` argument);
-- Does not support the `-c/--condition` filtering mechanism;
+- The `-c/--condition` filtering mechanism onlys supports a simple one-field comparison (`key==value` or `key < value`). It will find fields inside of nested JSON objects - but only compares based on the first one it finds. All standard binary comparison operators are supported.
 - Does not support the `--pager/--no-pager` flags;
 - Only supports the `long` output format;
 - Only supports UTC format for time.
@@ -105,11 +110,14 @@ Speed has never been a burning problem while eyeballing logs from applications, 
 To benchmark `bunyan-rs` against the original NodeJS `bunyan` follow these steps:
 
 - Build `bunyan-rs` using the `release` profile:
+
 ```bash
 cargo build --release
 ```
+
 - Install `bunyan` via `npm`. You will need `npx` as well;
 - Benchmark!
+
 ```bash
 # bunyan JS
 time ./benchmark_js.sh benchmark_logs.txt
