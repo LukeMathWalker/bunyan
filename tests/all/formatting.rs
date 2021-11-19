@@ -7,7 +7,7 @@ fn simple_log() {
 
     let mut cmd = command();
     cmd.arg("--no-color").pipe_stdin(input_path).unwrap();
-    cmd.assert().success().stdout(predicate::str::similar(
+    cmd.assert().success().stdout(predicate::str::diff(
         "[2012-02-08T22:56:52.856Z]  INFO: myservice/123 on example.com: My message\n",
     ));
 }
@@ -18,7 +18,7 @@ fn simple_log_with_color() {
 
     let mut cmd = command();
     cmd.arg("--color").pipe_stdin(input_path).unwrap();
-    cmd.assert().success().stdout(predicate::str::similar(
+    cmd.assert().success().stdout(predicate::str::diff(
         "[2012-02-08T22:56:52.856Z] \u{1b}[36m INFO\u{1b}[0m: myservice/123 on example.com: \u{1b}[36mMy message\u{1b}[0m\n",
     ));
 }
@@ -29,7 +29,7 @@ fn extra_field_log() {
 
     let mut cmd = command();
     cmd.arg("--no-color").pipe_stdin(input_path).unwrap();
-    cmd.assert().success().stdout(predicate::str::similar(
+    cmd.assert().success().stdout(predicate::str::diff(
         "[2012-02-08T22:56:52.856Z]  INFO: myservice/123 on example.com: My message (extra=field)\n",
     ));
 }
@@ -40,7 +40,7 @@ fn extra_field_log_with_color() {
 
     let mut cmd = command();
     cmd.arg("--color").pipe_stdin(input_path).unwrap();
-    cmd.assert().success().stdout(predicate::str::similar(
+    cmd.assert().success().stdout(predicate::str::diff(
         "[2012-02-08T22:56:52.856Z] \u{1b}[36m INFO\u{1b}[0m: myservice/123 on example.com: \u{1b}[36mMy message\u{1b}[0m (extra=field)\n",
     ));
 }
@@ -51,7 +51,7 @@ fn bogus_log() {
 
     let mut cmd = command();
     cmd.arg("--no-color").pipe_stdin(input_path).unwrap();
-    cmd.assert().success().stdout(predicate::str::similar(
+    cmd.assert().success().stdout(predicate::str::diff(
         r#"not a JSON line
 {"hi": "there"}
 "#,
@@ -67,7 +67,7 @@ fn bogus_log_strict() {
         .arg("--strict")
         .pipe_stdin(input_path)
         .unwrap();
-    cmd.assert().success().stdout(predicate::str::similar(""));
+    cmd.assert().success().stdout(predicate::str::diff(""));
 }
 
 #[test]
@@ -102,5 +102,5 @@ not a JSON line
         .unwrap();
     cmd.assert()
         .success()
-        .stdout(predicate::str::similar(expected));
+        .stdout(predicate::str::diff(expected));
 }
