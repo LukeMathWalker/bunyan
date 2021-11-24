@@ -87,12 +87,12 @@ pub fn format_extras(extra_fields: &serde_json::Map<String, serde_json::Value>) 
 
         if stringified.contains('\n') || stringified.len() > 50 {
             if let serde_json::Value::String(s) = value {
-                details.push(indent(&format!("{}: {}", key, s)));
+                details.push(indent(&format!("{}: {}", key.bold(), s)));
             } else {
-                details.push(indent(&format!("{}: {}", key, stringified)));
+                details.push(indent(&format!("{}: {}", key.bold(), stringified)));
             }
         } else {
-            extras.push(format!("{}={}", key, stringified));
+            extras.push(format!("{}={}", key.bold(), stringified));
         }
     }
     let formatted_details = if !details.is_empty() {
