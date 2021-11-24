@@ -53,7 +53,7 @@ impl<'a> LogRecord<'a> {
 }
 
 pub fn format_level(level: u8) -> String {
-    if let Some(level) = NamedLogLevel::try_from(level).ok() {
+    if let Ok(level) = NamedLogLevel::try_from(level) {
         match level {
             // Making sure all levels are 5 characters
             NamedLogLevel::Fatal => "FATAL".reversed(),
@@ -76,7 +76,7 @@ pub fn format_extras(extra_fields: &serde_json::Map<String, serde_json::Value>) 
         let stringified = if let serde_json::Value::String(s) = value {
             // Preserve strings unless they contain whitespaces/are empty
             // In that case, we want surrounding quotes.
-            if s.contains(" ") || s.is_empty() {
+            if s.contains(' ') || s.is_empty() {
                 format!("\"{}\"", s)
             } else {
                 s.to_owned()
@@ -85,7 +85,7 @@ pub fn format_extras(extra_fields: &serde_json::Map<String, serde_json::Value>) 
             json_to_indented_string(value, "  ")
         };
 
-        if stringified.contains("\n") || stringified.len() > 50 {
+        if stringified.contains('\n') || stringified.len() > 50 {
             if let serde_json::Value::String(s) = value {
                 details.push(indent(&format!("{}: {}", key, s)));
             } else {
@@ -95,12 +95,12 @@ pub fn format_extras(extra_fields: &serde_json::Map<String, serde_json::Value>) 
             extras.push(format!("{}={}", key, stringified));
         }
     }
-    let formatted_details = if details.len() > 0 {
+    let formatted_details = if !details.is_empty() {
         format!("{}\n", details.into_iter().join("\n    --\n"))
     } else {
         "".into()
     };
-    let formatted_extras = if extras.len() > 0 {
+    let formatted_extras = if !extras.is_empty() {
         format!(" ({})", extras.into_iter().join(","))
     } else {
         "".into()
