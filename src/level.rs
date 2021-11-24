@@ -11,7 +11,7 @@ impl FromStr for NumericalLogLevel {
     type Err = anyhow::Error;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        if let Some(level) = s.parse::<u8>().ok() {
+        if let Ok(level) = s.parse::<u8>() {
             Ok(NumericalLogLevel(level))
         } else {
             match s.parse::<NamedLogLevel>() {
