@@ -57,6 +57,8 @@ You can verify your installation with
 bunyan --help
 ```
 
+Alternatively, you can download a pre-built binary for your operating system from the [latest release](https://github.com/LukeMathWalker/bunyan/releases).
+
 ## How to use
 
 `bunyan-rs` only supports stdin as input source.
