@@ -4,7 +4,7 @@ use clap::Parser;
 /// Bunyan is a simple and fast JSON logging library for node.js services,
 /// a one-JSON-object-per-line log format, and a bunyan CLI tool for nicely viewing those logs.
 /// this is a Rust implementation of bunyan cli used to filter and pretty-print Bunyan log file content.
-#[derive(Parser)]
+#[derive(clap::StructOpt)]
 #[clap(version = "0.1", author = "Luca Palmieri <rust@lpalmieri.com>")]
 struct Cli {
     /// Only show messages at or above the specified level.
