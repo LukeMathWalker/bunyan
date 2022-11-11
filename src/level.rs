@@ -4,7 +4,7 @@ use std::str::FromStr;
 /// Bunyan log level.
 /// Although "named" log levels are specified (see `NamedLogLevel`) arbitrary integer values are
 /// accepted (e.g. 32).
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub struct NumericalLogLevel(pub u8);
 
 impl FromStr for NumericalLogLevel {
@@ -26,7 +26,7 @@ impl FromStr for NumericalLogLevel {
 /// Although arbitrary integer values are accepted as log levels (see `LogLevel`) the usage of
 /// named log levels is preferred.
 #[repr(u8)]
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub enum NamedLogLevel {
     /// The service/app is going to stop or become unusable now.
     /// An operator should definitely look into this soon.

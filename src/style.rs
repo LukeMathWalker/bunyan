@@ -1,7 +1,7 @@
 use std::str::FromStr;
 
 /// Supported output formats.
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub enum Format {
     /// Prettified JSON.
     Long,

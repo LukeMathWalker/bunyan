@@ -13,6 +13,16 @@ struct Cli {
     /// numeric value.
     #[clap(short, long, default_value = "trace")]
     level: NumericalLogLevel,
+    /// Run each log message through the condition and only show those that return truish.
+    /// E.g.:
+    ///     -c 'this.pid == 123'
+    ///     -c 'this.level == DEBUG'
+    ///     -c 'this.msg.indexOf("boom") != -1'
+    /// "CONDITION" must be (somewhat) legal JS code.
+    /// `this` holds the log record.
+    /// The TRACE, DEBUG, ... FATAL values are defined to help with comparing `this.level`.
+    #[clap(short, long)]
+    condition: Option<String>,
     /// Specify an output format.
     ///
     /// - long: prettified JSON;
@@ -43,5 +53,5 @@ fn main() {
         colored::control::set_override(true);
     }
 
-    process_stdin(cli.output, cli.level.0, cli.strict);
+    process_stdin(cli.output, cli.level.0, cli.condition, cli.strict);
 }

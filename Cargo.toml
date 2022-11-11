@@ -24,6 +24,7 @@ chrono = { version = "0.4.19", features = ["serde"] }
 atty = "0.2.14"
 colored = "2.0.0"
 itertools = "0.10.1"
+quick-js = "0.4.1"
 
 [dev-dependencies]
 assert_cmd = "2.0.2"
