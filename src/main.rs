@@ -13,6 +13,11 @@ struct Cli {
     /// numeric value.
     #[clap(short, long, default_value = "trace")]
     level: NumericalLogLevel,
+    /// Set a filter based on comparing a field to a provided value
+    ///
+    /// form of <field> <comparison> <value>, ie: -c 'hostname == my.host.name'
+    #[clap(short, long)]
+    compare: Option<String>,
     /// Specify an output format.
     ///
     /// - long: prettified JSON;
@@ -43,5 +48,5 @@ fn main() {
         colored::control::set_override(true);
     }
 
-    process_stdin(cli.output, cli.level.0, cli.strict);
+    process_stdin(cli.output, cli.level.0, cli.strict, cli.compare);
 }
