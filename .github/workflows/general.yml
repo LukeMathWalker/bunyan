@@ -71,3 +71,13 @@ jobs:
         with:
           command: doc
           args: --no-deps --document-private-items
+  nix-build:
+      name: Build with Nix
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+        - name: Install Nix
+          uses: cachix/install-nix-action@v17
+        - name: Build release
+          run: nix build
