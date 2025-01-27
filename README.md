@@ -23,11 +23,11 @@
 
 > _Structured logs are the greatest thing since sliced bread._
 
-Are you annoyed from having to install `npm` just to get a copy of the amazing [NodeJS bunyan CLI](https://github.com/trentm/node-bunyan) to pretty-print your logs?  
+Are you annoyed from having to install `npm` just to get a copy of the amazing [NodeJS bunyan CLI](https://github.com/trentm/node-bunyan) to pretty-print your logs?
 
 I feel you!
 
-That's why I wrote `bunyan-rs`, a Rust port of (a subset of) the original [NodeJS bunyan CLI](https://github.com/trentm/node-bunyan).  
+That's why I wrote `bunyan-rs`, a Rust port of (a subset of) the original [NodeJS bunyan CLI](https://github.com/trentm/node-bunyan).
 
 <div>
 <img src="https://raw.githubusercontent.com/LukeMathWalker/bunyan/main/images/ConsoleBunyanOutput.png" />
@@ -85,10 +85,9 @@ Compared to the original `bunyan` CLI, `bunyan-rs`:
 - Does not support log snooping via DTrace (`-p` argument);
 - Does not support the `-c/--condition` filtering mechanism;
 - Does not support the `--pager/--no-pager` flags;
-- Only supports the `long` output format;
 - Only supports UTC format for time.
 
-Some of the above might or might not be added in the future.  
+Some of the above might or might not be added in the future.
 If you are interested in contributing, please open an issue.
 
 ## Bunyan ecosystem in Rust
@@ -119,7 +118,7 @@ time ./benchmark_js.sh benchmark_logs.txt
 time ./benchmark_rs.sh benchmark_logs.txt
 ```
 
-On my system `bunyan-rs` is roughly 5x faster on this very non-scientific and highly inaccurate benchmark - your mileage may vary.  
+On my system `bunyan-rs` is roughly 5x faster on this very non-scientific and highly inaccurate benchmark - your mileage may vary.
 The Rust code is highly non-optimised (we are allocating freely and wastefully!) - streamlining it could be a fun exercise.
 
 ## License

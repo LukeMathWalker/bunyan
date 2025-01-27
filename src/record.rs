@@ -8,18 +8,22 @@ use serde_json::Serializer;
 use std::borrow::Cow;
 use std::convert::TryFrom;
 
-#[derive(serde::Deserialize)]
+#[derive(serde::Deserialize, serde::Serialize)]
 pub struct LogRecord<'a> {
     /// This is the bunyan log format version. The log version is a single integer.
     /// It is meant to be 0 until version "1.0.0" of `node-bunyan` is released.
     /// Thereafter, starting with 1, this will be incremented if there is any backward incompatible
     /// change to the log record format.
     #[serde(rename = "v")]
+    #[allow(dead_code)]
     pub version: u8,
-    /// See `LogLevel`
-    pub level: u8,
     /// Name of the service/application emitting logs in bunyan format.
     pub name: &'a str,
+    /// Log message.
+    #[serde(rename = "msg")]
+    pub message: Cow<'a, str>,
+    /// See `LogLevel`
+    pub level: u8,
     /// Name of the operating system host.
     pub hostname: &'a str,
     /// Process identifier.
@@ -27,28 +31,48 @@ pub struct LogRecord<'a> {
     pub process_identifier: u32,
     /// The time of the event captured by the log in [ISO 8601 extended format](http://en.wikipedia.org/wiki/ISO_8601).
     pub time: DateTime<Utc>,
-    /// Log message.
-    #[serde(rename = "msg")]
-    pub message: Cow<'a, str>,
     /// Any extra contextual piece of information in the log record.
     #[serde(flatten)]
     pub extras: serde_json::Map<String, serde_json::Value>,
 }
 
 impl<'a> LogRecord<'a> {
-    pub fn format(&self, _format: Format) -> String {
+    pub fn format(&self, format: Format) -> String {
         let level = format_level(self.level);
-        let formatted = format!(
-            "[{}] {}: {}/{} on {}: {}{}",
-            self.time.to_rfc3339_opts(SecondsFormat::Millis, true),
-            level,
-            self.name,
-            self.process_identifier,
-            self.hostname,
-            self.message.cyan(),
-            format_extras(&self.extras)
-        );
-        formatted
+        match format {
+            Format::Long => {
+                format!(
+                    "[{}] {}: {}/{} on {}: {}{}",
+                    self.time.to_rfc3339_opts(SecondsFormat::Millis, true),
+                    level,
+                    self.name,
+                    self.process_identifier,
+                    self.hostname,
+                    self.message.cyan(),
+                    format_extras(&self.extras)
+                )
+            }
+            Format::Short => {
+                format!(
+                    "{} {} {}: {}{}",
+                    self.time.format("%H:%M:%S%.3fZ"),
+                    level,
+                    self.name,
+                    self.message.cyan(),
+                    format_extras(&self.extras)
+                )
+            }
+            Format::Json => serde_json::to_string_pretty(&self).expect("This should not happen"),
+            Format::JsonN(l) => {
+                let indent = " ".repeat(l.into());
+                let value = serde_json::to_value(&self).expect("This should not happen");
+                json_to_indented_string(&value, &indent)
+            }
+            Format::Bunyan => format!(
+                "{}\n",
+                serde_json::to_string(&self).expect("This should not happen")
+            ),
+        }
     }
 }
 

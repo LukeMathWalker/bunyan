@@ -15,7 +15,15 @@ struct Cli {
     level: NumericalLogLevel,
     /// Specify an output format.
     ///
-    /// - long: prettified JSON;
+    /// long: Default output, long form, colorful and "pretty".
+    ///
+    /// short: Like the default output, but more concise.
+    ///
+    /// json: JSON output, 2-space indentation.
+    ///
+    /// json-N: JSON output, N-space indentation, e.g. "json-4".
+    ///
+    /// bunyan: Alias for "json-0", the Bunyan "native" format.
     #[arg(short, long, default_value = "long")]
     output: Format,
     /// Colorize output.
