@@ -1,3 +1,7 @@
+> [!IMPORTANT]
+> **`bunyan` has moved to [LukeMathWalker/officina](https://github.com/LukeMathWalker/officina/tree/main/bunyan).**
+> This repository is archived: development, issues and releases continue there. The `bunyan` crate on crates.io is unaffected.
+
 <h1 align="center">bunyan-rs</h1>
 <div align="center">
  <strong>
